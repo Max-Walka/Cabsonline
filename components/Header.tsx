@@ -25,6 +25,7 @@ export default function Header() {
             <Link
               key={link.href}
               href={link.href}
+              prefetch={link.href === '/admin' ? false : undefined}
               className={`px-3 py-1.5 rounded text-sm font-medium transition-colors ${
                 pathname === link.href
                   ? 'bg-gray-900 text-yellow-400'

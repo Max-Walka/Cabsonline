@@ -43,6 +43,7 @@ export default function HomePage() {
             <p className="text-gray-600 text-sm flex-1 mb-4">{card.desc}</p>
             <Link
               href={card.href}
+              prefetch={card.href === '/admin' ? false : undefined}
               className={`block text-center font-medium py-2 px-4 rounded-lg transition-colors ${card.btnClass}`}
             >
               {card.cta}
