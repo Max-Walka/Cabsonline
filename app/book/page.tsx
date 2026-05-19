@@ -113,7 +113,7 @@ export default function BookPage() {
     errors[field] ? <p className="text-red-600 text-xs mt-1">{errors[field]}</p> : null
 
   const inputClass = (field: keyof FormData) =>
-    `w-full border rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-yellow-400 ${errors[field] ? 'border-red-400' : 'border-gray-300'}`
+    `w-full border rounded px-3 py-2 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-400 ${errors[field] ? 'border-red-400' : 'border-gray-300'}`
 
   return (
     <div className="max-w-2xl mx-auto">

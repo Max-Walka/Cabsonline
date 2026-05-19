@@ -22,9 +22,7 @@ export default function FareEstimator({
 
   const handleEstimate = async () => {
     if (!fromSuburb.trim() || !toSuburb.trim()) {
-      setError(
-        "Please fill in both pickup suburb and destination suburb first",
-      );
+      setError("Please fill in both pickup suburb and destination suburb first");
       return;
     }
     setError("");
@@ -37,6 +35,8 @@ export default function FareEstimator({
       if (data.success) {
         setResult(data);
         onEstimate(data.estimated_fare);
+      } else {
+        setError(data.message ?? "Could not fetch estimate");
       }
     } catch {
       setError("Could not fetch estimate");

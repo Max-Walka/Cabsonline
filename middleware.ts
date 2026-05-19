@@ -1,0 +1,22 @@
+import { NextRequest, NextResponse } from 'next/server'
+
+export function middleware(req: NextRequest) {
+  const password = process.env.ADMIN_PASSWORD
+  if (!password) return NextResponse.next() // skip if not configured
+
+  const auth = req.headers.get('authorization') ?? ''
+  const expected = 'Basic ' + Buffer.from(`admin:${password}`).toString('base64')
+
+  if (auth !== expected) {
+    return new NextResponse('Unauthorised', {
+      status: 401,
+      headers: { 'WWW-Authenticate': 'Basic realm="CabsOnline Admin"' },
+    })
+  }
+
+  return NextResponse.next()
+}
+
+export const config = {
+  matcher: ['/admin/:path*', '/api/drivers/:path*'],
+}

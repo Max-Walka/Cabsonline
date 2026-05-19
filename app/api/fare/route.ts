@@ -11,5 +11,10 @@ export async function GET(req: NextRequest) {
   }
 
   const result = getFare(from, to)
+
+  if ('error' in result) {
+    return NextResponse.json({ success: false, message: result.message }, { status: 400 })
+  }
+
   return NextResponse.json({ success: true, ...result })
 }

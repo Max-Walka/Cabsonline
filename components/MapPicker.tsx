@@ -23,8 +23,14 @@ export default function MapPicker({ onLocationSelect }: Props) {
   useEffect(() => {
     if (typeof window === 'undefined' || !mapRef.current || mapInstanceRef.current) return
 
+    let cancelled = false
+
     // Dynamic import to avoid SSR issues
     import('leaflet').then((L) => {
+      if (cancelled || !mapRef.current || mapInstanceRef.current) return
+      // Guard against container already claimed by a previous Leaflet instance
+      if ((mapRef.current as unknown as Record<string, unknown>)['_leaflet_id']) return
+
       import('leaflet/dist/leaflet.css')
 
       // Fix broken marker icons in webpack
@@ -83,6 +89,7 @@ export default function MapPicker({ onLocationSelect }: Props) {
     })
 
     return () => {
+      cancelled = true
       if (mapInstanceRef.current) {
         mapInstanceRef.current.remove()
         mapInstanceRef.current = null
