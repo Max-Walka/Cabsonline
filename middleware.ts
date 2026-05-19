@@ -5,7 +5,7 @@ export function middleware(req: NextRequest) {
   if (!password) return NextResponse.next() // skip if not configured
 
   const auth = req.headers.get('authorization') ?? ''
-  const expected = 'Basic ' + Buffer.from(`admin:${password}`).toString('base64')
+  const expected = 'Basic ' + btoa(`admin:${password}`)
 
   if (auth !== expected) {
     return new NextResponse('Unauthorised', {
