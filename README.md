@@ -4,7 +4,7 @@ Student ID: 22187034
 Course: Web Development  
 Assignment: Part 2
 
-Public URL:
+Public URL: https://cabsonline.vercel.app/
 
 - fill this in
 
@@ -34,34 +34,34 @@ Go to the SQL editor in your Supabase dashboard and run this:
 
 -- Drivers table
 create table drivers (
-  id serial primary key,
-  name text not null,
-  phone text not null,
-  vehicle text not null,
-  plate text not null,
-  status text not null default 'available' check (status in ('available', 'busy', 'offline')),
-  created_at timestamptz default now()
+id serial primary key,
+name text not null,
+phone text not null,
+vehicle text not null,
+plate text not null,
+status text not null default 'available' check (status in ('available', 'busy', 'offline')),
+created_at timestamptz default now()
 );
 
 -- Bookings table
 create table bookings (
-  id serial primary key,
-  booking_ref text unique not null,
-  cname text not null,
-  phone text not null,
-  unumber text,
-  snumber text not null,
-  stname text not null,
-  sbname text,
-  dsbname text,
-  pickup_date date not null,
-  pickup_time time not null,
-  booking_datetime timestamptz default now(),
-  status text not null default 'unassigned' check (status in ('unassigned', 'assigned', 'in_progress', 'completed')),
-  driver_id integer references drivers(id),
-  pickup_lat double precision,
-  pickup_lng double precision,
-  estimated_fare numeric(8,2)
+id serial primary key,
+booking_ref text unique not null,
+cname text not null,
+phone text not null,
+unumber text,
+snumber text not null,
+stname text not null,
+sbname text,
+dsbname text,
+pickup_date date not null,
+pickup_time time not null,
+booking_datetime timestamptz default now(),
+status text not null default 'unassigned' check (status in ('unassigned', 'assigned', 'in_progress', 'completed')),
+driver_id integer references drivers(id),
+pickup_lat double precision,
+pickup_lng double precision,
+estimated_fare numeric(8,2)
 );
 
 Then enable Row Level Security (RLS) on both tables in the Supabase dashboard and add a permissive policy for the anon role on each (SELECT, INSERT, UPDATE).
@@ -96,15 +96,15 @@ The `/admin` pages are protected by HTTP Basic Auth middleware.
 
 ## Microservice API Endpoints
 
-| Method | Endpoint                | Description                              |
-| ------ | ----------------------- | ---------------------------------------- |
-| POST   | `/api/bookings`         | Create a new booking                     |
-| GET    | `/api/bookings`         | List unassigned bookings due within 2 hrs|
-| GET    | `/api/bookings/:ref`    | Get a booking and its assigned driver    |
-| PATCH  | `/api/bookings/:ref`    | Assign driver or advance booking status  |
-| GET    | `/api/drivers`          | List all drivers                         |
-| POST   | `/api/drivers`          | Add a new driver                         |
-| GET    | `/api/fare?from=X&to=Y` | Get fare estimate between two suburbs    |
+| Method | Endpoint                | Description                               |
+| ------ | ----------------------- | ----------------------------------------- |
+| POST   | `/api/bookings`         | Create a new booking                      |
+| GET    | `/api/bookings`         | List unassigned bookings due within 2 hrs |
+| GET    | `/api/bookings/:ref`    | Get a booking and its assigned driver     |
+| PATCH  | `/api/bookings/:ref`    | Assign driver or advance booking status   |
+| GET    | `/api/drivers`          | List all drivers                          |
+| POST   | `/api/drivers`          | Add a new driver                          |
+| GET    | `/api/fare?from=X&to=Y` | Get fare estimate between two suburbs     |
 
 ---
 
@@ -189,7 +189,7 @@ After filling in the pickup and destination suburbs, customers click "Get Estima
 
 I have been using Claude Code in my own time for personal projects and came into this assignment with some familiarity with it. I find it genuinely useful for accelerating development, but I have learned that it requires active direction and verification rather than passive delegation — you still need a solid understanding of system architecture to get anything meaningful out of it.
 
-For this project I used Claude to scaffold the Next.js App Router structure, design the database schema, build the fare calculation system, and develop the UI components. This saved considerable time compared to building everything from scratch, particularly for boilerplate-heavy work like API route setup and form validation.
+For this project I used Claude to scaffold the Next.js App Router structure, design the database schema, build the fare calculation system, and develop the UI components. This saved considerable time compared to building everything from scratch, particularly for boilerplate-heavy work like API route setup and form validation. I also drafted a README.md and added everything in, i then got Claude to polish it up and format it.
 
 However, there were several points where I had to intervene or make decisions myself. Claude initially did not add .env.local to .gitignore, which would have exposed my Supabase credentials and admin password if I had pushed to GitHub — I caught this and fixed it. I also made the call to replace the original hardcoded fare lookup table with a proper coordinate-based system covering all ~170 Auckland suburbs, because the original approach returned a flat $30 default for any unrecognised input, which was not acceptable. The Supabase RLS policy configuration was also something I had to understand and complete myself through the dashboard.
 
